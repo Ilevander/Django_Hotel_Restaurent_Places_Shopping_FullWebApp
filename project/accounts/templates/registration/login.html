@@ -1,0 +1,51 @@
+
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% block body %}
+
+<div class="hero-wrap js-fullheight" style="background-image: url({% static 'images/bg_4.jpg' %});">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+            data-scrollax-parent="true">
+            <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
+                <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Login</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+          <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="text-center">
+                {% bootstrap_button button_type="submit" content="Login" %}
+            </div>
+        </form>
+          {% if form.errors %}
+          <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+      
+        {% if next %}
+          {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+          {% else %}
+            <p>Please login to see this page.</p>
+          {% endif %}
+        {% endif %}
+      
+       
+      
+        {# Assumes you setup the password_reset view in your URLconf #}
+        <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock body %}

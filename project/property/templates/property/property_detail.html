@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block body %}
+
+<style>
+	.current-category {
+		      @media (min-width: 768px){}
+				.col-md-4 {
+					-webkit-box-flex: 0;
+					flex: 0 0 33.33333%;
+					max-width: 33.33333%;
+				}
+				.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
+					position: relative;
+					width: 100%;
+					min-height: 1px;
+					padding-right: 15px;
+					padding-left: 15px; } .ftco-animate {
+					opacity: 0;
+					visibility: hidden;
+				}
+				.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
+					position: relative;
+					width: 100%;
+					min-height: 1px;
+					padding-right: 15px;
+					padding-left: 15px;
+				}.ftco-animated {
+					animation-duration: .5s;
+					animation-fill-mode: both;
+				}.fadeInUp {
+					animation-name: fadeInUp;
+				}
+	}
+</style>
+
+<div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/5.webp' %}');">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+			data-scrollax-parent="true">
+			<div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
+				<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span
+						class="mr-2"><a href="/">Home</a></span> <span class="mr-2"><a
+							href="{% url 'property:property_list' %}">Property</a></span> <span>Hotel Single</span></p>
+				<h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Properties
+					Details
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<section class="ftco-section ftco-degree-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 mx-auto">
+				<div class="row">
+					<div class="col-md-12 ftco-animate">
+						<div class="single-slider owl-carousel">
+							<!--Loop into the PropertyImages class that contains all images-->
+							{% for image in object.property_image.all %}
+							<div class="item">
+								{% if image.image %}
+								<div class="hotel-img" style="background-image: url({{image.image.url}});"></div>
+								{% endif %}
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="col-md-12 hotel-single mt-4 mb-5 ftco-animate">
+						<span>Our Best hotels &amp; Rooms</span>
+						<h2>{{property}}</h2>
+						<p class="rate mb-5">
+							<span class="loc"><a href="#"><i class="icon-map"></i>{{object.place}}</a></span>
+							<span class="star">
+								<i class="icon-star"></i>
+								<i class="icon-star"></i>
+								<i class="icon-star"></i>
+								<i class="icon-star"></i>
+								<i class="icon-star-o"></i>
+								8 Rating</span>
+						</p>
+						<p>{{object.description|safe}}</p>
+
+					</div>
+                     <!--Message about avalblity to user -->
+					{% if object.check_avalblity == 'Available' %}
+					   <div class="alert alert-success" role="alert">
+						Available Today!
+					  </div>
+					{% else %}
+					   <div class="alert alert-warning" role="alert">
+						The Room is Being Booked , The Reservation <strong>{{object.check_avalblity}}</strong>
+					  </div>
+					{% endif %}
+
+					<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
+						<h4 class="mb-5">Check Availability &amp; Booking</h4>
+						<form method="post" class="form">
+							{% csrf_token %}
+							{% bootstrap_form form %}
+							{% buttons %}
+							<div class="text-center">
+								<button type="submit" class="btn btn-primary">
+									Check Availability
+								</button>
+								{% endbuttons %}
+							</div>
+						</form>
+					</div>
+
+					<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
+						<h4 class="mb-4">Review &amp; Ratings</h4>
+						<div class="row">
+							<div class="col-md-6">
+								<form method="post" class="star-rating">
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="exampleCheck1">
+										<label class="form-check-label" for="exampleCheck1">
+											<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
+														class="icon-star"></i><i class="icon-star"></i><i
+														class="icon-star"></i> 100 Ratings</span></p>
+										</label>
+									</div>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="exampleCheck1">
+										<label class="form-check-label" for="exampleCheck1">
+											<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
+														class="icon-star"></i><i class="icon-star"></i><i
+														class="icon-star-o"></i> 30 Ratings</span></p>
+										</label>
+									</div>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="exampleCheck1">
+										<label class="form-check-label" for="exampleCheck1">
+											<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
+														class="icon-star"></i><i class="icon-star-o"></i><i
+														class="icon-star-o"></i> 5 Ratings</span></p>
+										</label>
+									</div>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="exampleCheck1">
+										<label class="form-check-label" for="exampleCheck1">
+											<p class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
+														class="icon-star-o"></i><i class="icon-star-o"></i><i
+														class="icon-star-o"></i> 0 Ratings</span></p>
+										</label>
+									</div>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="exampleCheck1">
+										<label class="form-check-label" for="exampleCheck1">
+											<p class="rate"><span><i class="icon-star"></i><i class="icon-star-o"></i><i
+														class="icon-star-o"></i><i class="icon-star-o"></i><i
+														class="icon-star-o"></i> 0 Ratings</span></p>
+										</label>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 hotel-single ftco-animate mb-5 mt-5">
+						<h4 class="mb-4">Related deals</h4>
+						<div class="row">
+							{% for property in related %}
+							<div class="col-md-4 ftco-animate">
+								<div class="destination {% if property.category == current_category %}current-category{% endif %}">
+									<a href="{{property.get_absolte_url}}"
+										class="img img-2 d-flex justify-content-center align-items-center"
+										style="background-image: url({{property.image.url}});">
+										<div class="icon d-flex justify-content-center align-items-center">
+											<span class="icon-search2"></span>
+										</div>
+									</a>
+									<div class="text p-3">
+										<div class="d-flex">
+											<div class="one">
+												<h3><a href="{{property.get_absolte_url}}">{{property}}</a></h3>
+												<p class="rate">
+													<i class="icon-star"></i>
+													<i class="icon-star"></i>
+													<i class="icon-star"></i>
+													<i class="icon-star"></i>
+													<i class="icon-star-o"></i>
+													<span>8 Rating</span>
+												</p>
+											</div>
+											<div class="two">
+												<span
+													class="price per-price">${{property.price}}<br><small>/night</small></span>
+											</div>
+										</div>
+										<p>{{property.description|safe|truncatewords:3}}</p>
+										<hr>
+										<p class="bottom-area d-flex">
+											<span><i class="icon-map-o"></i> {{property.place}}</span>
+											<span class="ml-auto"><a href="{{property.get_absolte_url}}">Book Now</a></span>
+										</p>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+
+				</div>
+			</div> <!-- .col-md-8 -->
+		</div>
+	</div>
+</section> <!-- .section -->
+{% endblock body %}
